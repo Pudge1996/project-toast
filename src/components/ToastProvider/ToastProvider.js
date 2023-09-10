@@ -1,4 +1,5 @@
 import React from "react";
+import useKeyDown from '../../hooks/use-key-down';
 export const ToastContext = React.createContext();
 
 function ToastProvider({ children }) {
@@ -23,8 +24,13 @@ function ToastProvider({ children }) {
 
     setInfoQueue(nextInfoQueue);
   }
+  const handelEscape = React.useCallback(() => {
+    setInfoQueue([]);
+  },[])
+  useKeyDown('Escape', handelEscape)
+
   return (
-    <ToastContext.Provider value={{ infoQueue, createToast, dismissToast }}>
+    <ToastContext.Provider value={{ infoQueue, setInfoQueue, createToast, dismissToast }}>
       {children}
     </ToastContext.Provider>
   );
